@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cors());
 handleConnection(process.env.MONGO_URL)
   .then(() => {
     console.log("MongoDB connected");

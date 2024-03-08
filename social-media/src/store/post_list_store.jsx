@@ -46,7 +46,9 @@ const PostListprovider = ({ children }) => {
       const response = await axios.post(url, requestDataObj, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:5173/",
         },
+        withCredentials: true,
       });
 
       const data = response.data;
@@ -74,7 +76,9 @@ const PostListprovider = ({ children }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "http://localhost:5173/",
           },
+          withCredentials: true,
         }
       );
       navigate("/");
@@ -95,8 +99,10 @@ const PostListprovider = ({ children }) => {
       let url = `https://blogify-vp1v.onrender.com/api/data/${id}`;
       const response = await axios.delete(url, {
         headers: {
+          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
 
       console.log("Post deleted successfully");
@@ -114,8 +120,10 @@ const PostListprovider = ({ children }) => {
       let url = `https://blogify-vp1v.onrender.com/api/data/${id}`;
       const response = await axios.patch(url, data, {
         headers: {
+          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
       alert("Post updated successfully");
       setdataLoadedOrNot();
@@ -131,8 +139,10 @@ const PostListprovider = ({ children }) => {
       let url = `https://blogify-vp1v.onrender.com/api/user/signup`;
       const response = await axios.post(url, data, {
         headers: {
+          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
 
       alert("Signed up successfully");
@@ -156,8 +166,10 @@ const PostListprovider = ({ children }) => {
       let url = `https://blogify-vp1v.onrender.com/api/user/login`;
       const response = await axios.post(url, data, {
         headers: {
+          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
 
       alert("Logged in successfully");
@@ -177,8 +189,10 @@ const PostListprovider = ({ children }) => {
       let url = `https://blogify-vp1v.onrender.com/api/user/logout`;
       await axios.get(url, {
         headers: {
+          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
 
       alert("Logged out successfully");

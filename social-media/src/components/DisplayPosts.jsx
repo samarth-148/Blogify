@@ -13,6 +13,7 @@ const DisplayPosts = ({}) => {
     let url = "https://blogify-vp1v.onrender.com/api/data";
     fetch(url, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => {
         if (response.status === 401) {
