@@ -8,8 +8,7 @@ const dataRouter = require("./routes/data.routes");
 const userRouter = require("./routes/user.routes");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const { preprocess } = require("zod");
-
+console.log(process.env.MONGO_URL);
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,22 +26,8 @@ handleConnection(process.env.MONGO_URL)
     process.exit(1);
   });
 
-app.use(
-  "/api/data",
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  }),
-  dataRouter
-);
+app.use("/api/data", dataRouter);
 
-app.use(
-  "/api/user",
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  }),
-  userRouter
-);
+app.use("/api/user", userRouter);
 
 app.use("/uploads", express.static("uploads"));

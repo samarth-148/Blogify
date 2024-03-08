@@ -41,14 +41,12 @@ const PostListprovider = ({ children }) => {
   async function handleSearch(arr, navigate) {
     try {
       const requestDataObj = { data: arr };
-      const url = "http://localhost:4400/api/data/searchData";
+      const url = "https://blogify-vp1v.onrender.com/api/data/searchData";
 
       const response = await axios.post(url, requestDataObj, {
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
         },
-        withCredentials: true,
       });
 
       const data = response.data;
@@ -71,14 +69,12 @@ const PostListprovider = ({ children }) => {
   async function onAddPost(formData, navigate) {
     try {
       const response = await axios.post(
-        "http://localhost:4400/api/data",
+        "https://blogify-vp1v.onrender.com/api/data",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "http://localhost:5173/",
           },
-          withCredentials: true,
         }
       );
       navigate("/");
@@ -96,13 +92,11 @@ const PostListprovider = ({ children }) => {
 
   async function onDeletePost(id) {
     try {
-      let url = `http://localhost:4400/api/data/${id}`;
+      let url = `https://blogify-vp1v.onrender.com/api/data/${id}`;
       const response = await axios.delete(url, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       });
 
       console.log("Post deleted successfully");
@@ -117,13 +111,11 @@ const PostListprovider = ({ children }) => {
   }
   async function onEditPost(id, data, navigate) {
     try {
-      let url = `http://localhost:4400/api/data/${id}`;
+      let url = `https://blogify-vp1v.onrender.com/api/data/${id}`;
       const response = await axios.patch(url, data, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       });
       alert("Post updated successfully");
       setdataLoadedOrNot();
@@ -136,13 +128,11 @@ const PostListprovider = ({ children }) => {
 
   async function onUserSignUp(data, navigate) {
     try {
-      let url = `http://localhost:4400/api/user/signup`;
+      let url = `https://blogify-vp1v.onrender.com/api/user/signup`;
       const response = await axios.post(url, data, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       });
 
       alert("Signed up successfully");
@@ -163,13 +153,11 @@ const PostListprovider = ({ children }) => {
 
   async function onUserLogin(data, navigate) {
     try {
-      let url = `http://localhost:4400/api/user/login`;
+      let url = `https://blogify-vp1v.onrender.com/api/user/login`;
       const response = await axios.post(url, data, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       });
 
       alert("Logged in successfully");
@@ -186,13 +174,11 @@ const PostListprovider = ({ children }) => {
   }
   async function handleLogOut(navigate) {
     try {
-      let url = `http://localhost:4400/api/user/logout`;
+      let url = `https://blogify-vp1v.onrender.com/api/user/logout`;
       await axios.get(url, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       });
 
       alert("Logged out successfully");
