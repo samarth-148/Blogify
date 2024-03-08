@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+
 handleConnection(process.env.MONGO_URL)
   .then(() => {
     console.log("MongoDB connected");
@@ -26,8 +26,22 @@ handleConnection(process.env.MONGO_URL)
     process.exit(1);
   });
 
-app.use("/api/data", dataRouter);
+app.use(
+  "/api/data",
+  cors({
+    origin: process.env.URL,
+    credentials: true,
+  }),
+  dataRouter
+);
 
-app.use("/api/user", userRouter);
+app.use(
+  "/api/user",
+  cors({
+    origin: process.env.URL,
+    credentials: true,
+  }),
+  userRouter
+);
 
 app.use("/uploads", express.static("uploads"));
