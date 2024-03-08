@@ -1,0 +1,275 @@
+.container-app {
+    display: flex;
+}
+
+.content {
+    width: 100%
+}
+
+.post-style {
+    margin: 20px;
+}
+
+.display-posts-container {
+    margin: 20px;
+    margin-bottom: 200px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.footer-class {
+    bottom: 0;
+    width: 100%;
+    /* Set your desired background color */
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.body-container {
+    min-height: calc(100vh - 40px);
+    /* Adjust the value based on the total margin/padding around the content */
+    padding-bottom: 50px;
+    /* Adjust the value based on the height of your footer */
+}
+
+.sidebar-container {
+    min-height: 100vh;
+    width: 200px;
+}
+
+.create-post-container {
+    margin: 50px;
+    border: 2px solid black;
+    border-radius: 3px;
+    padding: 20px;
+
+}
+
+.img-box {
+    width: 200px;
+    height: 200px;
+    object-fit: fill;
+}
+
+.post-container {
+    width: 200px;
+    height: 300px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.welcome-message {
+    border: 3px solid black;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin: 50px;
+}
+
+.spinner-class {
+    margin-top: 200px;
+}
+
+.btn-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn-Class {
+    margin-right: 15px;
+}
+
+.edit-post-container {
+    padding: 10px;
+}
+
+.form-container {
+    padding: 10px;
+}
+
+/* styles.css */
+
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4c0bce;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.submit-btn-login {
+    margin-top: 20px;
+}
+
+/* sign up page css */
+
+/* styles.css */
+
+.signup-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4c0bce;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0673e7;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.signup-link a {
+    color: #4c0bce;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+.bg-purple {
+    background-color: #4c0bce;
+}
+
+.width-set {
+    width: 102px
+}
+
+.button-submit {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4c0bce;
+    border: 2px solid #4c0bce;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.button-submit:hover {
+    background-color: #6c2bd9;
+    border-color: #6c2bd9;
+}
+
+.button-submit:focus {
+    outline: none;
+}
+
+.button-submit:active {
+    background-color: #3a077f;
+    border-color: #3a077f;
+}
+
+/* styles.css */
+
+.error-container {
+    text-align: center;
+    margin-top: 20vh;
+}
+
+.error-heading {
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.error-link {
+    text-decoration: none;
+    color: #3a077f;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
