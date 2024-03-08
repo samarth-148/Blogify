@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-handleConnection("mongodb://127.0.0.1:27017/socialmedia")
+handleConnection(process.env.MONGO_URL)
   .then(() => {
     console.log("MongoDB connected");
     app.listen(process.env.PORT, () => {
