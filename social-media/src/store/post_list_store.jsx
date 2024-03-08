@@ -41,7 +41,7 @@ const PostListprovider = ({ children }) => {
   async function handleSearch(arr, navigate) {
     try {
       const requestDataObj = { data: arr };
-      const url = "https://blogify-vp1v.onrender.com/api/data/searchData";
+      const url = "http://localhost:4400/api/data/searchData";
 
       const response = await axios.post(url, requestDataObj, {
         headers: {
@@ -71,7 +71,7 @@ const PostListprovider = ({ children }) => {
   async function onAddPost(formData, navigate) {
     try {
       const response = await axios.post(
-        "https://blogify-vp1v.onrender.com/api/data",
+        "http://localhost:4400/api/data",
         formData,
         {
           headers: {
@@ -96,7 +96,7 @@ const PostListprovider = ({ children }) => {
 
   async function onDeletePost(id) {
     try {
-      let url = `https://blogify-vp1v.onrender.com/api/data/${id}`;
+      let url = `http://localhost:4400/api/data/${id}`;
       const response = await axios.delete(url, {
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:5173/",
@@ -117,7 +117,7 @@ const PostListprovider = ({ children }) => {
   }
   async function onEditPost(id, data, navigate) {
     try {
-      let url = `https://blogify-vp1v.onrender.com/api/data/${id}`;
+      let url = `http://localhost:4400/api/data/${id}`;
       const response = await axios.patch(url, data, {
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:5173/",
@@ -136,7 +136,7 @@ const PostListprovider = ({ children }) => {
 
   async function onUserSignUp(data, navigate) {
     try {
-      let url = `https://blogify-vp1v.onrender.com/api/user/signup`;
+      let url = `http://localhost:4400/api/user/signup`;
       const response = await axios.post(url, data, {
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:5173/",
@@ -144,7 +144,7 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
-
+      console.log(response);
       alert("Signed up successfully");
       setLoggedIn(true);
       setdataLoadedOrNot();
@@ -163,7 +163,7 @@ const PostListprovider = ({ children }) => {
 
   async function onUserLogin(data, navigate) {
     try {
-      let url = `https://blogify-vp1v.onrender.com/api/user/login`;
+      let url = `http://localhost:4400/api/user/login`;
       const response = await axios.post(url, data, {
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:5173/",
@@ -186,7 +186,7 @@ const PostListprovider = ({ children }) => {
   }
   async function handleLogOut(navigate) {
     try {
-      let url = `https://blogify-vp1v.onrender.com/api/user/logout`;
+      let url = `http://localhost:4400/api/user/logout`;
       await axios.get(url, {
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:5173/",
