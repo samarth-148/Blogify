@@ -83,7 +83,11 @@ const PostListprovider = ({ children }) => {
       );
       navigate("/");
     } catch (error) {
-      alert("Not Authorized to Add post, Login require");
+      if (error.response && error.response.status === 401) {
+        alert("You are not authorized to add this post");
+      } else {
+        alert("An error occurred while adding the post");
+      }
     }
   }
 

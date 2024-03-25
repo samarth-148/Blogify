@@ -1,6 +1,31 @@
 /** @format */
 const path = require("path");
 const data = require("../models/data.models");
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const crypto = require("crypto");
+const sharp = require("sharp");
+const bucketName = process.env.BUCKET_NAME;
+const bucketRegion = process.env.BUCKET_REGION;
+const accessKey = process.env.ACCESS_KEY;
+const secretAccessKey = process.env.SECRET_ACCESS_KEY;
+
+const client = new S3Client({
+  credentials: {
+    accessKeyId: accessKey,
+    secretAccessKey: secretAccessKey,
+  },
+  region: bucketRegion,
+});
+
+function ramdomUID(fileName) {
+  return crypto.randomBytes(16).toString("hex") + fileName;
+}
 
 async function handleSearchData(req, res) {
   let isLoggedIn = req.isLoggedIn;
@@ -20,17 +45,37 @@ async function handleSearchData(req, res) {
     dataToSend = await data.find({ postType: "public" });
   }
 
-  dataToSend = dataToSend.filter((post) => {
-    let isAuthorContains = keywords.some((keyword) =>
-      post.author.includes(keyword)
-    );
-    let isDescriptionCntains = keywords.some((keyword) =>
-      post.description.includes(keyword)
-    );
-    return isAuthorContains || isDescriptionCntains;
-  });
+  dataToSend = await Promise.all(
+    dataToSend.map(async (post) => {
+      let isAuthorContains = keywords.some((keyword) =>
+        post.author.includes(keyword)
+      );
+      let isDescriptionContains = keywords.some((keyword) =>
+        post.description.includes(keyword)
+      );
+      if (isAuthorContains || isDescriptionContains) {
+        let getpostParam = {
+          Bucket: bucketName,
+          Key: post.imageKey,
+        };
+        let command = new GetObjectCommand(getpostParam);
+        let url = await getSignedUrl(client, command, { expiresIn: 3600 });
+        return {
+          _id: post._id,
+          author: post.author,
+          description: post.description,
+          imageKey: post.imageKey,
+          url: url,
+        };
+      }
+      return null;
+    })
+  );
 
-  res.status(200).json({ isLoggedIn, data: dataToSend });
+  // Filter out null values
+  dataToSend = dataToSend.filter((post) => post !== null);
+
+  res.status(200).json({ data: dataToSend });
 }
 
 async function handleGetDataReq(req, res) {
@@ -49,20 +94,51 @@ async function handleGetDataReq(req, res) {
     dataToSend = await data.find({ postType: "public" });
   }
 
-  res.status(200).json({ isLoggedIn, data: dataToSend });
+  // Use Promise.all to fetch signed URLs for all data objects
+  let newData = await Promise.all(
+    dataToSend.map(async (data) => {
+      let getDataParam = {
+        Bucket: bucketName,
+        Key: data.imageKey,
+      };
+      let command = new GetObjectCommand(getDataParam);
+      let url = await getSignedUrl(client, command, { expiresIn: 3600 });
+      return {
+        _id: data._id,
+        author: data.author,
+        description: data.description,
+        imageKey: data.imageKey,
+        url: url,
+      };
+    })
+  );
+  console.log(newData);
+  res.status(200).json({ isLoggedIn, data: newData });
 }
 
 async function handlePostDataReq(req, res) {
   let newData = req.body;
-  let postPath = req.file?.path;
-  let id = req.id;
+  let imageKey = ramdomUID(req.file.originalname);
+  const buffer = await sharp(req.file.buffer)
+    .resize({ height: 200, width: 200, fit: "contain" })
+    .toBuffer();
 
-  let result = await data.create({
+  let id = req.id;
+  const putObjParams = {
+    Bucket: bucketName,
+    Key: imageKey,
+    Body: buffer,
+    ContentType: req.file.mimetype,
+  };
+  const command = new PutObjectCommand(putObjParams);
+  await client.send(command);
+
+  await data.create({
     author: newData.author,
     description: newData.description,
     postType: newData.postType,
     createdBy: id,
-    path: postPath,
+    imageKey: imageKey,
   });
 
   return res.status(200).json({ msg: "created" });
@@ -93,8 +169,14 @@ async function handlePatchDataReq(req, res) {
 async function handleDeleteDataReq(req, res) {
   let id = req.params.id;
   let userId = req.id;
-  const shouldBeDeleted = await data.findOne({ _id: id, createdBy: userId });
-  if (shouldBeDeleted) {
+  const post = await data.findOne({ _id: id, createdBy: userId });
+  if (post) {
+    let deletParams = {
+      Bucket: bucketName,
+      Key: post.imageKey,
+    };
+    let command = new DeleteObjectCommand(deletParams);
+    await client.send(command);
     await data.findByIdAndDelete(id);
     return res.status(200).json({ msg: "deleted" });
   }
