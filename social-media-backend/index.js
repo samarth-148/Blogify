@@ -25,19 +25,19 @@ handleConnection(process.env.MONGO_URL)
     console.error("Error connecting to MongoDB:", error);
     process.exit(1);
   });
-
 app.use(
   "/api/data",
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://blogifybysam.netlify.app",
     credentials: true,
   }),
   dataRouter
 );
+
 app.use(
   "/api/user",
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://blogifybysam.netlify.app",
     credentials: true,
   }),
   userRouter
