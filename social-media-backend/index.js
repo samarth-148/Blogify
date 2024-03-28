@@ -30,6 +30,7 @@ app.use(
   "/api/data",
   cors({
     origin: process.env.FRONTEND_URL,
+    credentials: true,
   }),
   dataRouter
 );
@@ -37,6 +38,7 @@ app.use(
   "/api/user",
   cors({
     origin: process.env.FRONTEND_URL,
+    credentials: true,
   }),
   userRouter
 );
