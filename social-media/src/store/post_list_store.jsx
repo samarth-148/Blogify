@@ -14,6 +14,7 @@ export const PostListContext = createContext({
   setPostsData: () => {},
   onEditPost: () => {},
   handleDataObjToEdit: () => {},
+  handleGetData: () => {},
   onUserSignUp: () => {},
   onUserLogin: () => {},
   handleLogOut: () => {},
@@ -28,6 +29,7 @@ const PostListprovider = ({ children }) => {
   const [data, setData] = useState([]);
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
+  const backend_url = import.meta.env.VITE_BACKEND_API_URL;
 
   function setPostsData(fetcheData) {
     setData(fetcheData);
@@ -38,10 +40,32 @@ const PostListprovider = ({ children }) => {
   function handleDataObjToEdit(editObjData) {
     setDataToEdit(editObjData);
   }
+
+  async function handleGetData() {
+    let url = backend_url + "/api/data";
+    fetch(url, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          console.log("Unauthorized. Redirecting to login page.");
+        } else {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setPostsData(res.data);
+        setUserLoggedIn(res.isLoggedIn);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
   async function handleSearch(arr, navigate) {
     try {
       const requestDataObj = { data: arr };
-      const url = "/api/data/searchData";
+      const url = backend_url + "/api/data/searchData";
 
       const response = await axios.post(url, requestDataObj, {
         headers: {
@@ -73,7 +97,8 @@ const PostListprovider = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.post("/api/data", formData, {
+      const url = backend_url + "api.data";
+      const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -94,7 +119,7 @@ const PostListprovider = ({ children }) => {
 
   async function onDeletePost(id) {
     try {
-      let url = `/api/data/${id}`;
+      let url = backend_url + `/api/data/${id}`;
       const response = await axios.delete(url, {
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +139,7 @@ const PostListprovider = ({ children }) => {
   }
   async function onEditPost(id, data, navigate) {
     try {
-      let url = `/api/data/${id}`;
+      let url = backend_url + `/api/data/${id}`;
       const response = await axios.patch(url, data, {
         headers: {
           "Content-Type": "application/json",
@@ -132,7 +157,7 @@ const PostListprovider = ({ children }) => {
 
   async function onUserSignUp(data, navigate) {
     try {
-      let url = `/api/user/signup`;
+      let url = backend_url + "/api/user/signup";
       const response = await axios.post(url, data, {
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +183,7 @@ const PostListprovider = ({ children }) => {
 
   async function onUserLogin(data, navigate) {
     try {
-      let url = `/api/user/login`;
+      let url = backend_url + "/api/user/login";
       const response = await axios.post(url, data, {
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +205,7 @@ const PostListprovider = ({ children }) => {
   }
   async function handleLogOut(navigate) {
     try {
-      let url = `/api/user/logout`;
+      let url = backend_url + "/api/user/logout";
       await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
@@ -209,6 +234,7 @@ const PostListprovider = ({ children }) => {
         handleLogOut,
         handleDataObjToEdit,
         dataToEdit,
+        handleGetData,
         onUserLogin,
         onUserSignUp,
         isLoggedIn,

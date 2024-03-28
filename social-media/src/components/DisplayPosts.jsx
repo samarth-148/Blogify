@@ -6,29 +6,10 @@ import { useContext, useEffect } from "react";
 import { PostListContext } from "../store/post_list_store";
 
 const DisplayPosts = ({}) => {
-  const { data, setPostsData, isLoaded, setUserLoggedIn } =
-    useContext(PostListContext);
+  const { data, isLoaded, handleGetData } = useContext(PostListContext);
 
   useEffect(() => {
-    let url = "https://blogify-vp1v.onrender.com/api/data";
-    fetch(url, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.status === 401) {
-          console.log("Unauthorized. Redirecting to login page.");
-        } else {
-          return response.json();
-        }
-      })
-      .then((res) => {
-        setPostsData(res.data);
-        setUserLoggedIn(res.isLoggedIn);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    handleGetData();
   }, [isLoaded]);
 
   return (

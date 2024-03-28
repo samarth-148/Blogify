@@ -26,5 +26,17 @@ handleConnection(process.env.MONGO_URL)
     process.exit(1);
   });
 
-app.use("/api/data", dataRouter);
-app.use("/api/user", userRouter);
+app.use(
+  "/api/data",
+  cors({
+    origin: process.env.FRONTEND_URL,
+  }),
+  dataRouter
+);
+app.use(
+  "/api/user",
+  cors({
+    origin: process.env.FRONTEND_URL,
+  }),
+  userRouter
+);

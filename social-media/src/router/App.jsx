@@ -3,11 +3,9 @@
 // App.jsx
 import React, { useState } from "react";
 import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import PostListprovider from "../store/post_list_store";
 import { Outlet } from "react-router-dom";
-
 function App() {
   let [selectedOption, setSelectedOption] = useState("Home");
 
