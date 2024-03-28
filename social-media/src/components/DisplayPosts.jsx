@@ -10,7 +10,7 @@ const DisplayPosts = ({}) => {
     useContext(PostListContext);
 
   useEffect(() => {
-    let url = "/api/data";
+    let url = "https://blogify-vp1v.onrender.com/api/data";
     fetch(url, {
       method: "GET",
       credentials: "include",
