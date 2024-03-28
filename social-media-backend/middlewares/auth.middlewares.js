@@ -18,7 +18,7 @@ async function checkUserAuthorized(req, res, next) {
     req.id = isTokenValid;
     next();
   } catch (error) {
-    console.error("Error checking user authorization:", error);
+    console.log("Error checking user authorization:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }

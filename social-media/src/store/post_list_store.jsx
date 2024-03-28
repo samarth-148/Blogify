@@ -41,12 +41,11 @@ const PostListprovider = ({ children }) => {
   async function handleSearch(arr, navigate) {
     try {
       const requestDataObj = { data: arr };
-      const url = "http://localhost:4400/api/data/searchData";
+      const url = "/api/data/searchData";
 
       const response = await axios.post(url, requestDataObj, {
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
         },
         withCredentials: true,
       });
@@ -55,7 +54,7 @@ const PostListprovider = ({ children }) => {
       setTimeout(() => {
         setSearchedPostdata(data.data);
         setUserLoggedIn(data.isLoggedIn);
-      }, 3000);
+      }, 1000);
 
       navigate("/search");
     } catch (error) {
@@ -69,25 +68,20 @@ const PostListprovider = ({ children }) => {
   }
 
   async function onAddPost(formData, navigate) {
+    if (!isLoggedIn) {
+      alert("Login/Signup to add the post");
+      return;
+    }
     try {
-      const response = await axios.post(
-        "http://localhost:4400/api/data",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "http://localhost:5173/",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("/api/data", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
       navigate("/");
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert("You are not authorized to add this post");
-      } else {
-        alert("An error occurred while adding the post");
-      }
+      alert("An error occurred while adding the post");
     }
   }
 
@@ -100,10 +94,9 @@ const PostListprovider = ({ children }) => {
 
   async function onDeletePost(id) {
     try {
-      let url = `http://localhost:4400/api/data/${id}`;
+      let url = `/api/data/${id}`;
       const response = await axios.delete(url, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
         withCredentials: true,
@@ -121,10 +114,9 @@ const PostListprovider = ({ children }) => {
   }
   async function onEditPost(id, data, navigate) {
     try {
-      let url = `http://localhost:4400/api/data/${id}`;
+      let url = `/api/data/${id}`;
       const response = await axios.patch(url, data, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
         withCredentials: true,
@@ -140,10 +132,9 @@ const PostListprovider = ({ children }) => {
 
   async function onUserSignUp(data, navigate) {
     try {
-      let url = `http://localhost:4400/api/user/signup`;
+      let url = `/api/user/signup`;
       const response = await axios.post(url, data, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
         withCredentials: true,
@@ -167,10 +158,9 @@ const PostListprovider = ({ children }) => {
 
   async function onUserLogin(data, navigate) {
     try {
-      let url = `http://localhost:4400/api/user/login`;
+      let url = `/api/user/login`;
       const response = await axios.post(url, data, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
         withCredentials: true,
@@ -190,10 +180,9 @@ const PostListprovider = ({ children }) => {
   }
   async function handleLogOut(navigate) {
     try {
-      let url = `http://localhost:4400/api/user/logout`;
+      let url = `/api/user/logout`;
       await axios.get(url, {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:5173/",
           "Content-Type": "application/json",
         },
         withCredentials: true,

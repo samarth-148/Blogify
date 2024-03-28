@@ -26,22 +26,5 @@ handleConnection(process.env.MONGO_URL)
     process.exit(1);
   });
 
-app.use(
-  "/api/data",
-  cors({
-    origin: process.env.URL,
-    credentials: true,
-  }),
-  dataRouter
-);
-
-app.use(
-  "/api/user",
-  cors({
-    origin: process.env.URL,
-    credentials: true,
-  }),
-  userRouter
-);
-
-app.use("/uploads", express.static("uploads"));
+app.use("/api/data", dataRouter);
+app.use("/api/user", userRouter);

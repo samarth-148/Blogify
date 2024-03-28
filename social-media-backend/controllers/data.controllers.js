@@ -72,7 +72,6 @@ async function handleSearchData(req, res) {
     })
   );
 
-  // Filter out null values
   dataToSend = dataToSend.filter((post) => post !== null);
 
   res.status(200).json({ data: dataToSend });
@@ -94,7 +93,6 @@ async function handleGetDataReq(req, res) {
     dataToSend = await data.find({ postType: "public" });
   }
 
-  // Use Promise.all to fetch signed URLs for all data objects
   let newData = await Promise.all(
     dataToSend.map(async (data) => {
       let getDataParam = {
@@ -112,7 +110,7 @@ async function handleGetDataReq(req, res) {
       };
     })
   );
-  console.log(newData);
+  // console.log(newData, "dc");
   res.status(200).json({ isLoggedIn, data: newData });
 }
 
