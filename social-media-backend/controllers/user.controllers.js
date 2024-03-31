@@ -43,7 +43,6 @@ async function handleSignup(req, res) {
     secure: true,
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
     sameSite: "None",
-    domain: ".netlify.app", // Set domain to .netlify.app
     path: "/",
   });
 
