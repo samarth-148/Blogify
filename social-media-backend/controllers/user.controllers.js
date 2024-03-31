@@ -13,6 +13,10 @@ async function handleLogin(req, res) {
   res.cookie("uid", token, {
     httpOnly: true,
     secure: true,
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
+    sameSite: "None",
+    domain: ".netlify.app", // Set domain to .netlify.app
+    path: "/",
   });
 
   return res.status(200).json({ Login: true });
@@ -38,7 +42,12 @@ async function handleSignup(req, res) {
   res.cookie("uid", token, {
     httpOnly: true,
     secure: true,
-  }); // Use req.cookies.uid to access the uid cookie
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Expires in 30 days
+    sameSite: "None",
+    domain: ".netlify.app", // Set domain to .netlify.app
+    path: "/",
+  });
+
   return res.status(200).json({ Login: true });
 }
 
