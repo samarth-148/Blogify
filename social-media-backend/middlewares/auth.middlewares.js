@@ -4,22 +4,18 @@ const { getUser } = require("../service/auth.service");
 
 async function checkUserAuthorized(req, res, next) {
   let uid = req.cookies.uid;
-
   if (!uid) {
-    return res.status(401).json({ error: "User not logged in" });
+    return res.status(401).json({ msg: "Login/Signup required" });
   }
-
   try {
     let isTokenValid = await getUser(uid);
     if (!isTokenValid) {
-      console.log("Invalid token. Redirecting to login page.");
-      return res.status(401).json({ error: "User not logged in" });
+      return res.status(401).json({ msg: "Login/Signup required" });
     }
     req.id = isTokenValid;
     next();
   } catch (error) {
-    console.log("Error checking user authorization:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 }
 

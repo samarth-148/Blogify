@@ -110,13 +110,12 @@ async function handleGetDataReq(req, res) {
       };
     })
   );
-  // console.log(newData, "dc");
   res.status(200).json({ isLoggedIn, data: newData });
 }
 
 async function handlePostDataReq(req, res) {
   let newData = req.body;
-  let imageKey = ramdomUID(req.file.originalname);
+  let imageKey = ramdomUID(req.file.originalname + Date.now());
   const buffer = await sharp(req.file.buffer)
     .resize({ height: 200, width: 200, fit: "contain" })
     .toBuffer();

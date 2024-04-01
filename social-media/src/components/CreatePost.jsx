@@ -30,24 +30,26 @@ const CreatePost = () => {
 
   return (
     <div className="create-post-container">
-      <form onSubmit={handleAddPost}>
+      <form onSubmit={handleAddPost} encType="multipart/form-data">
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
+          <label htmlFor="author" className="form-label">
             Author
           </label>
           <input
             name="author"
             type="text"
             className="form-control"
+            id="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
+          <label htmlFor="description" className="form-label">
             Description
           </label>
           <input
+            id="description"
             name="description"
             type="text"
             className="form-control"
@@ -69,10 +71,11 @@ const CreatePost = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
+          <label htmlFor="file" className="form-label">
             File
           </label>
           <input
+            id="file"
             accept="image/*"
             name="file"
             type="file"

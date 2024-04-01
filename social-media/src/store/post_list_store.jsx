@@ -29,7 +29,7 @@ const PostListprovider = ({ children }) => {
   const [data, setData] = useState([]);
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
-  const backend_url = "https://blogify-vp1v.onrender.com";
+  const backend_url = "http://localhost:4400";
 
   function setPostsData(fetcheData) {
     setData(fetcheData);
@@ -49,7 +49,7 @@ const PostListprovider = ({ children }) => {
     })
       .then((response) => {
         if (response.status === 401) {
-          console.log("Unauthorized. Redirecting to login page.");
+          alert("Unauthorized. Redirecting to login page.");
         } else {
           return response.json();
         }
@@ -59,7 +59,7 @@ const PostListprovider = ({ children }) => {
         setUserLoggedIn(res.isLoggedIn);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        alert("Error fetching data");
       });
   }
   async function handleSearch(arr, navigate) {
@@ -92,12 +92,8 @@ const PostListprovider = ({ children }) => {
   }
 
   async function onAddPost(formData, navigate) {
-    if (!isLoggedIn) {
-      alert("Login/Signup to add the post");
-      return;
-    }
+    const url = backend_url + "/api/data";
     try {
-      const url = backend_url + "api.data";
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -106,7 +102,11 @@ const PostListprovider = ({ children }) => {
       });
       navigate("/");
     } catch (error) {
-      alert("An error occurred while adding the post");
+      if (error.response && error.response.status === 401) {
+        alert(error.response.data.msg);
+      } else {
+        alert("An error occurred while adding the post");
+      }
     }
   }
 
@@ -126,8 +126,6 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
-
-      console.log("Post deleted successfully");
       setdataLoadedOrNot();
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -164,7 +162,6 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
-      console.log(response);
       alert("Signed up successfully");
       setLoggedIn(true);
       setdataLoadedOrNot();
@@ -190,7 +187,6 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
-
       alert("Logged in successfully");
       setLoggedIn(true);
       setdataLoadedOrNot();
@@ -212,7 +208,6 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
-
       alert("Logged out successfully");
       setLoggedIn(false);
       setdataLoadedOrNot();
