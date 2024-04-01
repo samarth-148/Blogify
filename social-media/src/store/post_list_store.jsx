@@ -29,7 +29,7 @@ const PostListprovider = ({ children }) => {
   const [data, setData] = useState([]);
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
-  const backend_url = "http://localhost:4400";
+  const backend_url = "https://blogify-vp1v.onrender.com";
 
   function setPostsData(fetcheData) {
     setData(fetcheData);
