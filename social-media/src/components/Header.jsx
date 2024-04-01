@@ -34,7 +34,7 @@ const Header = () => {
       />
       <div className="lh-1 me-3">
         <h1 className="h6 mb-0 text-white lh-1">Blogify</h1>
-        <small>Since 2011</small>
+        <small>Since 2023</small>
       </div>
 
       <Link
