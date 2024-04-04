@@ -6,7 +6,6 @@ import App from "./router/App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import CreatePost from "./components/CreatePost.jsx";
-import NewComp from "./components/newComp.jsx";
 import EditPost from "./components/EditPost.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import SignUpPage from "./components/SignUpPage.jsx";
