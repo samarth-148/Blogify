@@ -5,7 +5,7 @@ import "../posts.css";
 import { PostListContext } from "../store/post_list_store";
 import { Link } from "react-router-dom";
 
-const Post = ({ item }) => {
+const Post = ({ item, isHome }) => {
   const { onDeletePost, handleDataObjToEdit } = useContext(PostListContext);
   return (
     <div className="card post-style post-container" style={{ width: "17rem" }}>
@@ -15,23 +15,29 @@ const Post = ({ item }) => {
           <h5 className="card-author">{item.author}</h5>
           <p className="card-text">{item.description}</p>
         </div>
-        <div className="btn-container">
-          <button
-            className="button-submit"
-            onClick={() => onDeletePost(item._id)}
-          >
-            Remove
-          </button>
-          <Link
-            to="/edit-post"
-            className="button-submit"
-            onClick={() => {
-              handleDataObjToEdit(item);
-            }}
-          >
-            Edit
-          </Link>
-        </div>
+        {!isHome ? (
+          <>
+            <div className="btn-container">
+              <button
+                className="button-submit"
+                onClick={() => onDeletePost(item._id)}
+              >
+                Remove
+              </button>
+              <Link
+                to="/edit-post"
+                className="button-submit"
+                onClick={() => {
+                  handleDataObjToEdit(item);
+                }}
+              >
+                Edit
+              </Link>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

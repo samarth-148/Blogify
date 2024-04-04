@@ -7,6 +7,7 @@ export const PostListContext = createContext({
   isLoggedIn: 0,
   dataToEdit: {},
   data: [],
+  userData: [],
   searchedData: [],
   onAddPost: () => {},
   onDeletePost: () => {},
@@ -21,21 +22,28 @@ export const PostListContext = createContext({
   setUserLoggedIn: () => {},
   hadleSearch: () => {},
   setSearchedPostdata: () => {},
+  handlePostsByUser: () => {},
 });
 
 const PostListprovider = ({ children }) => {
   const [isLoaded, setLoaded] = useState(0);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [data, setData] = useState([]);
+  const [userData, setUserData] = useState([]);
+
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
   const backend_url = "https://blogify-vp1v.onrender.com";
+  // const backend_url = "http://localhost:4400";
 
   function setPostsData(fetcheData) {
     setData(fetcheData);
   }
   function setSearchedPostdata(data) {
     setSearchedData(data);
+  }
+  function setUserPostData(data) {
+    setUserData(data);
   }
   function handleDataObjToEdit(editObjData) {
     setDataToEdit(editObjData);
@@ -55,6 +63,12 @@ const PostListprovider = ({ children }) => {
         }
       })
       .then((res) => {
+        const privatePosts = res.data.filter(
+          (data) => data.postType === "private"
+        );
+        console.log(res.data);
+        console.log(privatePosts);
+        setUserPostData(privatePosts);
         setPostsData(res.data);
         setUserLoggedIn(res.isLoggedIn);
       })
@@ -62,6 +76,7 @@ const PostListprovider = ({ children }) => {
         alert("Error fetching data");
       });
   }
+
   async function handleSearch(arr, navigate) {
     try {
       const requestDataObj = { data: arr };
@@ -237,6 +252,7 @@ const PostListprovider = ({ children }) => {
         handleSearch,
         searchedData,
         setSearchedPostdata,
+        userData,
       }}
     >
       {children}

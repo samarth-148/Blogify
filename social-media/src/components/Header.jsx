@@ -3,7 +3,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PostListContext } from "../store/post_list_store";
-
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 const Header = () => {
   const { isLoggedIn, handleLogOut, handleSearch } =
     useContext(PostListContext);
@@ -24,90 +28,64 @@ const Header = () => {
     handleSearch(dataArray, navigate);
   }
   return (
-    <div className="d-flex align-items-center p-3  text-white bg-purple  shadow-sm">
-      <img
-        className="me-3"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/2560px-Bootstrap_logo.svg.png"
-        alt=""
-        width="48"
-        height="38"
-      />
-      <div className="lh-1 me-3">
-        <h1 className="h6 mb-0 text-white lh-1">Blogify</h1>
-        <small>Since 2023</small>
-      </div>
-
-      <Link
-        to="/"
-        className="h6 mb-0 px-2 text-white lh-1 text-decoration-none"
-      >
-        Home
-      </Link>
-      <Link
-        to="/create-post"
-        className=" h6  mb-0  px-2 text-white  text-decoration-none btn-lg width-set"
-      >
-        Add Post
-      </Link>
-      <Link
-        to="https://samarthpatel148.netlify.app/"
-        className="h6 mb-0 px-2 text-white lh-1 text-decoration-none"
-      >
-        About
-      </Link>
-      <div className="d-flex w-100 justify-content-end ">
-        <form
-          className="d-flex flex-row justify-content-between me-5"
-          role="search"
-          onSubmit={handleSearchData}
-        >
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-          />
-          <button className="btn btn-outline-light me-2" type="submit">
-            Search
-          </button>
-        </form>
-        <div className="">
-          {isLoggedIn ? (
-            <>
-              <Link
-                type="button"
-                className="btn btn-outline-light me-2"
-                onClick={(e) => {
-                  handleLoggedOut();
-                }}
-              >
-                Logout
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                type="button"
-                className="btn btn-outline-light me-2"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                type="button"
-                className="btn btn-outline-light me-2"
-              >
-                Sign Up
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+    <Navbar expand="lg" bg="dark" data-bs-theme="dark">
+      <Container fluid style={{ height: "100px" }} className="mx-3">
+        <img className="me-3" src="/logo2.png" alt="" width="75" height="75" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/create-post">Create Post</Nav.Link>
+            <Nav.Link href="https://samarthpatel148.netlify.app/">
+              About Dev
+            </Nav.Link>
+            <NavDropdown title="Profile" id="navbarScrollingDropdown">
+              {isLoggedIn ? (
+                <>
+                  <NavDropdown.Item href="/profile">
+                    Visit Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item
+                    onClick={(e) => {
+                      handleLoggedOut();
+                    }}
+                  >
+                    Logout
+                  </NavDropdown.Item>
+                </>
+              ) : (
+                <>
+                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/signup">SignUp</NavDropdown.Item>
+                </>
+              )}
+            </NavDropdown>
+          </Nav>
+          <form
+            className="d-flex flex-row justify-content-between "
+            onSubmit={handleSearchData}
+          >
+            <input
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+            <Button variant="outline-success" type="submit">
+              Search
+            </Button>
+          </form>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

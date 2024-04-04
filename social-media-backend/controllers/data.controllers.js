@@ -92,7 +92,6 @@ async function handleGetDataReq(req, res) {
   } else {
     dataToSend = await data.find({ postType: "public" });
   }
-
   let newData = await Promise.all(
     dataToSend.map(async (data) => {
       let getDataParam = {
@@ -106,6 +105,8 @@ async function handleGetDataReq(req, res) {
         author: data.author,
         description: data.description,
         imageKey: data.imageKey,
+        postType: data.postType,
+        createdAt: data.createdAt,
         url: url,
       };
     })

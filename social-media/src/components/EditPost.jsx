@@ -27,7 +27,14 @@ const EditPost = () => {
   return (
     <>
       {dataToEdit._id != undefined ? (
-        <div className="edit-post-container">
+        <div
+          className="mt-5 create-post-container"
+          style={{
+            width: "50%",
+            marginLeft: "25%",
+            backgroundColor: "#e9f5f9",
+          }}
+        >
           <div
             className="card post-style post-container"
             style={{ width: "17rem", marginLeft: "40%" }}
@@ -37,10 +44,6 @@ const EditPost = () => {
               className="card-img-top img-box"
               alt="..."
             />
-            <div className="card-body ">
-              <h5 className="card-author">{dataToEdit.author}</h5>
-              <p className="card-text">{dataToEdit.description}</p>
-            </div>
             <div className="form-container">
               <Form>
                 <div className="mb-3">

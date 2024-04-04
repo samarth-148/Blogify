@@ -6,18 +6,21 @@ import App from "./router/App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import CreatePost from "./components/CreatePost.jsx";
-import DisplayPosts from "./components/DisplayPosts.jsx";
+import NewComp from "./components/newComp.jsx";
 import EditPost from "./components/EditPost.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import SignUpPage from "./components/SignUpPage.jsx";
 import DisplaySearchItems from "./components/DisplaySearchItems.jsx";
+import Home from "./components/Home.jsx";
+import Profile from "./components/Profile.jsx";
+import EditProfile from "./components/EditProfile.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <DisplayPosts /> },
+      { path: "/", element: <Home /> },
       {
         path: "/create-post",
         element: <CreatePost />,
@@ -37,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <DisplaySearchItems />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/edit",
+        element: <EditProfile />,
       },
     ],
   },
