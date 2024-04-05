@@ -1,5 +1,5 @@
 /** @format */
-//Header.jsx
+
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PostListContext } from "../store/post_list_store";
@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+
 const Header = () => {
   const { isLoggedIn, handleLogOut, handleSearch } =
     useContext(PostListContext);
@@ -26,7 +27,9 @@ const Header = () => {
     }
     const dataArray = searchStr.split(/[,\s]+/);
     handleSearch(dataArray, navigate);
+    setSearch(""); // Reset search input after submitting
   }
+
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <Container fluid style={{ height: "100px" }} className="mx-3">
@@ -37,17 +40,21 @@ const Header = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/create-post">Create Post</Nav.Link>
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+            <Link to="/create-post" className="nav-link">
+              Create Post
+            </Link>
             <Nav.Link href="https://samarthpatel148.netlify.app/">
               About Dev
             </Nav.Link>
             <NavDropdown title="Profile" id="navbarScrollingDropdown">
               {isLoggedIn ? (
                 <>
-                  <NavDropdown.Item href="/profile">
+                  <Link to="/profile" className="dropdown-item">
                     Visit Profile
-                  </NavDropdown.Item>
+                  </Link>
                   <NavDropdown.Divider />
                   <NavDropdown.Item
                     onClick={(e) => {
@@ -59,9 +66,13 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  <Link to="/login" className="dropdown-item">
+                    Login
+                  </Link>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/signup">SignUp</NavDropdown.Item>
+                  <Link to="/signup" className="dropdown-item">
+                    SignUp
+                  </Link>
                 </>
               )}
             </NavDropdown>
@@ -69,15 +80,17 @@ const Header = () => {
           <form
             className="d-flex flex-row justify-content-between "
             onSubmit={handleSearchData}
+            role="search"
+            aria-label="Search"
           >
             <input
               type="search"
               placeholder="Search"
               className="me-2"
-              aria-label="Search"
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
+              value={searchStr}
             />
             <Button variant="outline-success" type="submit">
               Search
