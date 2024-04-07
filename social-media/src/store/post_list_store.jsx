@@ -34,7 +34,6 @@ const PostListprovider = ({ children }) => {
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState({});
   const [userPosts, setUserPosts] = useState([]);
-
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
   const backend_url = "https://blogify-vp1v.onrender.com";
@@ -95,7 +94,7 @@ const PostListprovider = ({ children }) => {
       setTimeout(() => {
         setSearchedPostdata(data.data);
         setUserLoggedIn(data.isLoggedIn);
-      }, 1000);
+      }, 300);
 
       navigate("/search");
     } catch (error) {

@@ -65,6 +65,7 @@ async function handleSearchData(req, res) {
           author: post.author,
           description: post.description,
           imageKey: post.imageKey,
+          createdAt: post.createdAt,
           url: url,
         };
       }
