@@ -13,6 +13,7 @@ import DisplaySearchItems from "./components/DisplaySearchItems.jsx";
 import Home from "./components/Home.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
+import Friends from "./components/Friends.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/edit",
         element: <EditProfile />,
+      },
+      {
+        path: "/friends",
+        element: <Friends />,
       },
     ],
   },

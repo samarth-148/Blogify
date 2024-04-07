@@ -46,6 +46,9 @@ const Header = () => {
             <Link to="/create-post" className="nav-link">
               Create Post
             </Link>
+            <Link to="/friends" className="nav-link">
+              Friends
+            </Link>
             <Nav.Link href="https://samarthpatel148.netlify.app/">
               About Dev
             </Nav.Link>
