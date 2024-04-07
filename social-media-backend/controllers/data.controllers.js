@@ -48,10 +48,10 @@ async function handleSearchData(req, res) {
   dataToSend = await Promise.all(
     dataToSend.map(async (post) => {
       let isAuthorContains = keywords.some((keyword) =>
-        post.author.includes(keyword)
+        post.author.toLowerCase().includes(keyword.toLowerCase())
       );
       let isDescriptionContains = keywords.some((keyword) =>
-        post.description.includes(keyword)
+        post.description.toLowerCase().includes(keyword.toLowerCase())
       );
       if (isAuthorContains || isDescriptionContains) {
         let getpostParam = {
