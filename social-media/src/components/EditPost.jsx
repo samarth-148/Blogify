@@ -22,8 +22,6 @@ const EditPost = () => {
     };
     onEditPost(id, data, navigate);
   }
-  console.log(dataToEdit._id);
-
   return (
     <>
       {dataToEdit._id != undefined ? (

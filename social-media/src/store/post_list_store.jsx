@@ -7,7 +7,8 @@ export const PostListContext = createContext({
   isLoggedIn: 0,
   dataToEdit: {},
   data: [],
-  userData: [],
+  userData: {},
+  userPosts: [],
   searchedData: [],
   onAddPost: () => {},
   onDeletePost: () => {},
@@ -23,13 +24,16 @@ export const PostListContext = createContext({
   hadleSearch: () => {},
   setSearchedPostdata: () => {},
   handlePostsByUser: () => {},
+  handleEditUserData: () => {},
+  getUserData: () => {},
 });
 
 const PostListprovider = ({ children }) => {
   const [isLoaded, setLoaded] = useState(0);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [data, setData] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [userPosts, setUserPosts] = useState([]);
 
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
@@ -43,7 +47,7 @@ const PostListprovider = ({ children }) => {
     setSearchedData(data);
   }
   function setUserPostData(data) {
-    setUserData(data);
+    setUserPosts(data);
   }
   function handleDataObjToEdit(editObjData) {
     setDataToEdit(editObjData);
@@ -63,12 +67,10 @@ const PostListprovider = ({ children }) => {
         }
       })
       .then((res) => {
-        const privatePosts = res.data.filter(
-          (data) => data.postType === "private"
+        const userPosts = res.data.filter(
+          (data) => data.createdBy === res.userId
         );
-        console.log(res.data);
-        console.log(privatePosts);
-        setUserPostData(privatePosts);
+        setUserPostData(userPosts);
         setPostsData(res.data);
         setUserLoggedIn(res.isLoggedIn);
       })
@@ -105,6 +107,24 @@ const PostListprovider = ({ children }) => {
       }
     }
   }
+  async function handleEditUserData(formData, navigate) {
+    const url = backend_url + "/api/user/editUserData";
+    try {
+      const response = await axios.patch(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert(error.response.data.msg);
+      } else {
+        alert("An error occurred while adding the post");
+      }
+    }
+  }
 
   async function onAddPost(formData, navigate) {
     const url = backend_url + "/api/data";
@@ -130,6 +150,9 @@ const PostListprovider = ({ children }) => {
   }
   function setUserLoggedIn(response) {
     setLoggedIn(response);
+  }
+  function setUserDetails(data) {
+    setUserData(data);
   }
 
   async function onDeletePost(id) {
@@ -163,6 +186,7 @@ const PostListprovider = ({ children }) => {
       setdataLoadedOrNot();
       setLoggedIn(true);
       navigate("/");
+      console.log(response);
     } catch (error) {
       alert("Error updating post: " + error.message);
     }
@@ -232,6 +256,28 @@ const PostListprovider = ({ children }) => {
     }
   }
 
+  async function getUserData() {
+    let url = backend_url + "/api/user/userDetails";
+    fetch(url, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          alert("Unauthorized. Redirecting to login page.");
+        } else {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setUserDetails(res.data);
+        setUserLoggedIn(res.isLoggedIn);
+      })
+      .catch((error) => {
+        alert("Error fetching data");
+      });
+  }
+
   return (
     <PostListContext.Provider
       value={{
@@ -253,6 +299,9 @@ const PostListprovider = ({ children }) => {
         searchedData,
         setSearchedPostdata,
         userData,
+        userPosts,
+        handleEditUserData,
+        getUserData,
       }}
     >
       {children}

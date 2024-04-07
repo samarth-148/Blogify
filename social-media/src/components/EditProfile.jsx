@@ -7,34 +7,30 @@ import { PostListContext } from "../store/post_list_store";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const {} = useContext(PostListContext);
-  const [about, setAbout] = useState("");
+  const { handleEditUserData, userData } = useContext(PostListContext);
+  const [about, setAbout] = useState(userData.about);
   const [file, setFile] = useState(null);
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
-  const [email, setEmail] = useState("");
+  const [fName, setFName] = useState(userData.firstName);
+  const [lName, setLName] = useState(userData.lastName);
+  const [email, setEmail] = useState(userData.email);
 
-  function handleAddPost(event) {
+  function handleEdit(event) {
     event.preventDefault();
-
-    const limitedAuthor = author.substring(0, 25);
-
+    const limitedAbout = about.substring(0, 100);
     const formData = new FormData();
-    formData.append("author", limitedAuthor);
+    formData.append("about", limitedAbout);
     formData.append("firstName", fName);
     formData.append("lastName", lName);
     formData.append("email", email);
     formData.append("image", file);
-
-    // onAddPost(formData, navigate);
+    handleEditUserData(formData, navigate);
   }
-
   return (
     <div
       className="mt-5 create-post-container"
       style={{ width: "50%", marginLeft: "25%", backgroundColor: "#e9f5f9" }}
     >
-      <form onSubmit={handleAddPost} encType="multipart/form-data">
+      <form onSubmit={handleEdit} encType="multipart/form-data">
         <div className="mb-3">
           <label htmlFor="fName" className="form-label">
             First Name

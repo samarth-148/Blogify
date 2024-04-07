@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -13,7 +13,12 @@ import { PostListContext } from "../store/post_list_store";
 import { FaCamera } from "react-icons/fa";
 
 const Profile = () => {
-  const { userData } = useContext(PostListContext);
+  const { userData, userPosts, isLoaded, getUserData } =
+    useContext(PostListContext);
+
+  useEffect(() => {
+    getUserData();
+  }, [isLoaded]);
 
   return (
     <div
@@ -26,7 +31,7 @@ const Profile = () => {
             <Row className="mb-4">
               <Col xs={4} md={4} className="mr-10">
                 <img
-                  src="https://via.placeholder.com/250"
+                  src={userData.url}
                   alt="Profile"
                   style={{
                     width: "100%",
@@ -36,26 +41,31 @@ const Profile = () => {
                 />
               </Col>
               <Col xs={8} md={8} className="d-flex flex-column ">
-                <div className="d-flex flex-row justify-content-around mt-3 ml-5">
-                  <h3>User Name</h3>
+                <div className="d-flex flex-row justify-content-evenly mt-3 px-4">
+                  <h3 className="">
+                    {userData.firstName + " " + userData.lastName}
+                  </h3>
                   <Link
                     to="/edit"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <IoSettingsSharp style={{ fontSize: "25px" }} />
+                    <IoSettingsSharp
+                      style={{ fontSize: "25px" }}
+                      className=""
+                    />
                   </Link>
                 </div>
-                <div className="d-flex flex-row justify-content-around mt-3">
-                  <span>5 posts</span>
-                  <span>Followers</span>
-                  <span>Following</span>
+                <div className="d-flex flex-row justify-content-evenly mt-3 px-5">
+                  <span className="">{userPosts.length + " " + "posts"}</span>
+                  <span>0 Followers</span>
+                  <span>0 Following</span>
                 </div>
               </Col>
             </Row>
             <Row>
               <Col>
-                <h3>Blogs Area</h3>
-                <p>This is a sample blog post.</p>
+                <h3>{userData.firstName + " " + userData.lastName}</h3>
+                <p>{userData.about}</p>
               </Col>
             </Row>
           </Col>
@@ -63,8 +73,8 @@ const Profile = () => {
       </Container>
       <hr style={{ color: "gray", height: "2px", margin: "20px 0" }} />
       <div className="mb-5 py-5">
-        {userData.length !== 0 ? (
-          <DisplayPosts data={userData} />
+        {userPosts.length !== 0 ? (
+          <DisplayPosts data={userPosts} />
         ) : (
           <div className="text-center">
             <div

@@ -23,7 +23,7 @@ const client = new S3Client({
   region: bucketRegion,
 });
 
-function ramdomUID(fileName) {
+function randomUID(fileName) {
   return crypto.randomBytes(16).toString("hex") + fileName;
 }
 
@@ -80,9 +80,9 @@ async function handleSearchData(req, res) {
 async function handleGetDataReq(req, res) {
   let isLoggedIn = req.isLoggedIn;
   let dataToSend;
+  let id = req.id;
 
   if (isLoggedIn) {
-    let id = req.id;
     let userPosts = await data.find({ createdBy: id });
     let publicPosts = await data.find({
       postType: "public",
@@ -107,25 +107,22 @@ async function handleGetDataReq(req, res) {
         imageKey: data.imageKey,
         postType: data.postType,
         createdAt: data.createdAt,
+        createdBy: data.createdBy,
         url: url,
       };
     })
   );
-  res.status(200).json({ isLoggedIn, data: newData });
+  res.status(200).json({ isLoggedIn, data: newData, userId: id });
 }
 
 async function handlePostDataReq(req, res) {
   let newData = req.body;
-  let imageKey = ramdomUID(req.file.originalname + Date.now());
-  const buffer = await sharp(req.file.buffer)
-    .resize({ height: 200, width: 200, fit: "contain" })
-    .toBuffer();
-
+  let imageKey = randomUID(req.file.originalname + Date.now());
   let id = req.id;
   const putObjParams = {
     Bucket: bucketName,
     Key: imageKey,
-    Body: buffer,
+    Body: req.file.buffer,
     ContentType: req.file.mimetype,
   };
   const command = new PutObjectCommand(putObjParams);
