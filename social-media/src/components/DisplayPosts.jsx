@@ -1,9 +1,9 @@
 /** @format */
-import Post from "./Post";
 import "../posts.css";
 import LoadingSpinner from "./LoadingSpinner";
 import { useContext, useEffect } from "react";
 import { PostListContext } from "../store/post_list_store";
+import Feeds from "./Feeds";
 
 const DisplayPosts = ({ isHome, data }) => {
   const { isLoaded, handleGetData } = useContext(PostListContext);
@@ -12,17 +12,7 @@ const DisplayPosts = ({ isHome, data }) => {
   }, [isLoaded]);
 
   return (
-    <>
-      {data && data.length > 0 ? (
-        <div className="display-posts-container">
-          {data.map((item, index) => (
-            <Post item={item} key={item._id} index={index} isHome={isHome} />
-          ))}
-        </div>
-      ) : (
-        <LoadingSpinner />
-      )}
-    </>
+    <>{data && data.length > 0 ? <Feeds data={data} /> : <LoadingSpinner />}</>
   );
 };
 

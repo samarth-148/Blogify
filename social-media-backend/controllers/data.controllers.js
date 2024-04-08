@@ -1,6 +1,7 @@
 /** @format */
 const path = require("path");
 const data = require("../models/data.models");
+const User = require("../models/user.model");
 const {
   S3Client,
   PutObjectCommand,
@@ -93,6 +94,7 @@ async function handleGetDataReq(req, res) {
   } else {
     dataToSend = await data.find({ postType: "public" });
   }
+
   let newData = await Promise.all(
     dataToSend.map(async (data) => {
       let getDataParam = {
@@ -101,6 +103,25 @@ async function handleGetDataReq(req, res) {
       };
       let command = new GetObjectCommand(getDataParam);
       let url = await getSignedUrl(client, command, { expiresIn: 3600 });
+
+      let user = await User.find({ _id: data.createdBy });
+      let userprofileUrl =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"; // Default profile image URL
+
+      if (user.length > 0) {
+        let userImageKey = user[0].imageKey;
+        if (userImageKey) {
+          let getUserProfileParam = {
+            Bucket: bucketName,
+            Key: userImageKey,
+          };
+          let getProfileImgCommand = new GetObjectCommand(getUserProfileParam);
+          userprofileUrl = await getSignedUrl(client, getProfileImgCommand, {
+            expiresIn: 3600,
+          });
+        }
+      }
+
       return {
         _id: data._id,
         author: data.author,
@@ -110,9 +131,11 @@ async function handleGetDataReq(req, res) {
         createdAt: data.createdAt,
         createdBy: data.createdBy,
         url: url,
+        profileUrl: userprofileUrl,
       };
     })
   );
+
   res.status(200).json({ isLoggedIn, data: newData, userId: id });
 }
 
@@ -157,7 +180,6 @@ async function handlePatchDataReq(req, res) {
     }
     res.status(200).json({ msg: "Updated successfully", user });
   } catch (error) {
-    console.error("Error updating user:", error);
     res.status(500).json({ msg: "Server error" });
   }
 }

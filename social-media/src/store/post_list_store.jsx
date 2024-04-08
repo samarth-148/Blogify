@@ -69,6 +69,7 @@ const PostListprovider = ({ children }) => {
         const userPosts = res.data.filter(
           (data) => data.createdBy === res.userId
         );
+        console.log(res.data);
         setUserPostData(userPosts);
         setPostsData(res.data);
         setUserLoggedIn(res.isLoggedIn);
