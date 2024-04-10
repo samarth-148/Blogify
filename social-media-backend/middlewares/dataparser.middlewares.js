@@ -13,7 +13,6 @@ const userValidationSchema = z.object({
 });
 
 const postdataValidationSchema = z.object({
-  author: z.string(),
   description: z.string().max(100),
   postType: z.string(),
 });

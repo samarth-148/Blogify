@@ -9,18 +9,15 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const { onAddPost } = useContext(PostListContext);
   const [isPublic, setIsPublic] = useState(false);
-  const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
 
   function handleAddPost(event) {
     event.preventDefault();
 
-    const limitedAuthor = author.substring(0, 25);
     const limitedDescription = description.substring(0, 100);
 
     const formData = new FormData();
-    formData.append("author", limitedAuthor);
     formData.append("description", limitedDescription);
     formData.append("postType", isPublic ? "public" : "private");
     formData.append("image", file);
@@ -34,19 +31,6 @@ const CreatePost = () => {
       style={{ width: "50%", marginLeft: "25%", backgroundColor: "#e9f5f9" }}
     >
       <form onSubmit={handleAddPost} encType="multipart/form-data">
-        <div className="mb-3">
-          <label htmlFor="author" className="form-label">
-            Author
-          </label>
-          <input
-            name="author"
-            type="text"
-            className="form-control"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </div>
         <div className="mb-3">
           <label htmlFor="description" className="form-label">
             Description

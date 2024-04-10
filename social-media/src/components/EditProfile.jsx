@@ -13,13 +13,18 @@ const EditProfile = () => {
   const [fName, setFName] = useState(userData.firstName);
   const [lName, setLName] = useState(userData.lastName);
   const [email, setEmail] = useState(userData.email);
+  const [userName, setUsername] = useState(userData.userName);
 
   function handleEdit(event) {
     event.preventDefault();
-    const limitedAbout = about.substring(0, 100);
+    let limitedAbout = about;
+    if (about.length > 100) {
+      limitedAbout = about.substring(0, 100);
+    }
     const formData = new FormData();
     formData.append("about", limitedAbout);
     formData.append("firstName", fName);
+    formData.append("userName", userName);
     formData.append("lastName", lName);
     formData.append("email", email);
     formData.append("image", file);
@@ -55,6 +60,19 @@ const EditProfile = () => {
             id="lName"
             value={lName}
             onChange={(e) => setLName(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">
+            User Name
+          </label>
+          <input
+            name="username"
+            type="text"
+            className="form-control"
+            id="username"
+            value={userName}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="mb-3">

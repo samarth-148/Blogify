@@ -1,9 +1,10 @@
 /** @format */
 
 import React from "react";
-import { Container, Row, Col, Image, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 const FriendPost = ({ userData }) => {
+  console.log(userData.uName);
   return (
     <>
       <Container className="my-3">
@@ -11,7 +12,7 @@ const FriendPost = ({ userData }) => {
           <Col xs={2}>
             <img
               className="mx-5"
-              src={userData.imageUrl}
+              src={userData.url}
               alt="Profile"
               style={{
                 width: "50px",
@@ -25,9 +26,11 @@ const FriendPost = ({ userData }) => {
             className="d-flex flex-column justify-content-between mx-3"
           >
             <span>
-              <strong>{userData.username}</strong>
+              <strong>{userData.uName}</strong>
             </span>
-            <span className="text-muted">{userData.fullName}</span>
+            <span className="text-muted">
+              {userData.fName + " " + userData.lName}
+            </span>
           </Col>
           <Col xs={3} className="d-flex align-items-center justify-content-end">
             <Button variant="primary">Follow</Button>

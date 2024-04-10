@@ -8,6 +8,8 @@ const {
   handleLogin,
   handleLogOut,
   handleEditUserData,
+  isUserNameAvailable,
+  getUsers,
 } = require("../controllers/user.controllers");
 const { handleGetUserData } = require("../controllers/user.controllers");
 const { validateUser } = require("../middlewares/dataparser.middlewares");
@@ -20,6 +22,8 @@ router.route("/login").post(handleLogin);
 router.route("/signup").post(validateUser, handleSignup);
 router.route("/logout").get(handleLogOut);
 router.route("/userDetails").get(isUserLoggedIn, handleGetUserData);
+router.route("/checkUsername").post(isUserNameAvailable);
+router.route("/getAllUsers").get(getUsers);
 
 router
   .route("/editUserData")

@@ -46,7 +46,7 @@ async function handleLogin(req, res) {
 }
 
 async function handleSignup(req, res) {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, userName, about } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res
@@ -59,6 +59,8 @@ async function handleSignup(req, res) {
     lastName,
     email,
     password,
+    userName,
+    about,
   });
   const token = await setUser(createdUser);
 
@@ -80,11 +82,12 @@ async function handleLogOut(req, res) {
 async function handleEditUserData(req, res) {
   let userID = req.id;
   let newData = req.body;
-
-  let imageKey;
+  let imageKey = "";
   let currentUser = await User.findOne({ _id: userID });
-  if (!currentUser || !currentUser.imageKey) {
-    imageKey = randomUID(req.file.originalname + Date.now()); // Assuming randomUID is a correct function
+  if (!currentUser.imageKey) {
+    if (req.file) {
+      imageKey = randomUID(req.file.originalname + Date.now());
+    }
   } else {
     imageKey = currentUser.imageKey;
   }
@@ -129,21 +132,72 @@ async function handleGetUserData(req, res) {
     if (!dataToSend || dataToSend.length === 0) {
       return res.status(404).json({ error: "User data not found" });
     }
+    let userprofileUrl =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"; // Default profile image URL
 
     let data = dataToSend[0]; // Assuming dataToSend contains only one user's data
-    let getDataParam = {
-      Bucket: bucketName, // Assuming bucketName is defined
-      Key: data.imageKey,
-    };
-    let command = new GetObjectCommand(getDataParam);
-    let url = await getSignedUrl(client, command, { expiresIn: 3600 });
+    if (data.imageKey) {
+      let getDataParam = {
+        Bucket: bucketName, // Assuming bucketName is defined
+        Key: data.imageKey,
+      };
+      let command = new GetObjectCommand(getDataParam);
+      userprofileUrl = await getSignedUrl(client, command, { expiresIn: 3600 });
+    }
 
-    let userData = { ...data.toObject(), url }; // Convert Mongoose document to plain object
+    let userData = { ...data.toObject(), url: userprofileUrl }; // Convert Mongoose document to plain object
 
     return res.status(200).json({ isLoggedIn, data: userData });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ error: "Internal server error" });
+  }
+}
+async function isUserNameAvailable(req, res) {
+  const username = req.body.username;
+  try {
+    const existingUser = await User.findOne({ userName: username });
+    if (existingUser) {
+      res.json({ available: false, message: "Username is already taken" });
+    } else {
+      res.json({ available: true, message: "Username is available" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Error checking username availability",
+      error: error.message,
+    });
+  }
+}
+async function getUsers(req, res) {
+  try {
+    let users = await User.find({});
+    let dataOfusers = await Promise.all(
+      users.map(async (user) => {
+        let url =
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+        if (user.imageKey) {
+          let getDataParam = {
+            Bucket: bucketName, // Assuming bucketName is defined
+            Key: user.imageKey, // Use user.imageKey instead of data.imageKey
+          };
+          let command = new GetObjectCommand(getDataParam);
+          url = await getSignedUrl(client, command, { expiresIn: 3600 });
+        }
+        return {
+          userId: user._id,
+          fName: user.firstName,
+          lName: user.lastName,
+          uName: user.userName,
+          url: url,
+          about: user.about,
+        };
+      })
+    );
+    res.json(dataOfusers);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Error fetching users" });
   }
 }
 
@@ -153,4 +207,6 @@ module.exports = {
   handleLogOut,
   handleEditUserData,
   handleGetUserData,
+  isUserNameAvailable,
+  getUsers,
 };

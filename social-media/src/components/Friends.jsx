@@ -1,16 +1,15 @@
 /** @format */
 
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import FriendPost from "./FriendPost";
+import { PostListContext } from "../store/post_list_store";
 
 const Friends = () => {
+  const { getAllUsers, allUsersData, userData } = useContext(PostListContext);
   // Dummy data
-  const userData = {
-    username: "john_doe",
-    fullName: "John Doe",
-    imageUrl:
-      "https://images.pexels.com/photos/16039120/pexels-photo-16039120/free-photo-of-sunlit-rocks-on-sea-shore.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
 
   return (
     <div
@@ -22,14 +21,9 @@ const Friends = () => {
         marginLeft: "30%",
       }}
     >
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
-      <FriendPost userData={userData} />
+      {allUsersData.map((user) => {
+        if (user.userId != userData._id) return <FriendPost userData={user} />;
+      })}
     </div>
   );
 };

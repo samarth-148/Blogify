@@ -63,7 +63,6 @@ async function handleSearchData(req, res) {
         let url = await getSignedUrl(client, command, { expiresIn: 3600 });
         return {
           _id: post._id,
-          author: post.author,
           description: post.description,
           imageKey: post.imageKey,
           createdAt: post.createdAt,
@@ -124,7 +123,6 @@ async function handleGetDataReq(req, res) {
 
       return {
         _id: data._id,
-        author: data.author,
         description: data.description,
         imageKey: data.imageKey,
         postType: data.postType,

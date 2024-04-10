@@ -4,10 +4,6 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
   {
-    author: {
-      type: String,
-      required: true,
-    },
     description: {
       type: String,
       required: true,

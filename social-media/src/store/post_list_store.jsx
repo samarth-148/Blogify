@@ -26,6 +26,10 @@ export const PostListContext = createContext({
   handlePostsByUser: () => {},
   handleEditUserData: () => {},
   getUserData: () => {},
+  checkUserName: () => {},
+  getAllUsers: () => {},
+  isUserNameAvailable: false,
+  allUsersData: [],
 });
 
 const PostListprovider = ({ children }) => {
@@ -36,8 +40,10 @@ const PostListprovider = ({ children }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [searchedData, setSearchedData] = useState(null);
   const [dataToEdit, setDataToEdit] = useState({});
-  const backend_url = "https://blogify-vp1v.onrender.com";
-  // const backend_url = "http://localhost:4400";
+  const [isUserNameAvailable, setIsUserNameAvailable] = useState(false);
+  const [allUsersData, setAllUsersData] = useState([]);
+  // const backend_url = "https://blogify-vp1v.onrender.com";
+  const backend_url = "http://localhost:4400";
 
   function setPostsData(fetcheData) {
     setData(fetcheData);
@@ -69,7 +75,6 @@ const PostListprovider = ({ children }) => {
         const userPosts = res.data.filter(
           (data) => data.createdBy === res.userId
         );
-        console.log(res.data);
         setUserPostData(userPosts);
         setPostsData(res.data);
         setUserLoggedIn(res.isLoggedIn);
@@ -278,6 +283,45 @@ const PostListprovider = ({ children }) => {
       });
   }
 
+  async function checkUserName(username) {
+    let url = backend_url + "/api/user/checkUsername";
+    let data = {
+      username,
+    };
+
+    try {
+      let response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Check if the response is successful
+      if (response.status === 200) {
+        // Handle the response according to your requirements
+        return response.data;
+      } else {
+        // Handle the error, if any
+        console.error("Failed to fetch data:", response.statusText);
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error("Error:", error.message);
+    }
+  }
+  async function getAllUsers() {
+    try {
+      let url = backend_url + "/api/user/getAllUsers";
+      let response = await axios.get(url);
+      setAllUsersData(response.data);
+    } catch (error) {
+      console.error("Error fetching all users:", error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
+  }
+
+  // Example usage:
+
   return (
     <PostListContext.Provider
       value={{
@@ -302,6 +346,10 @@ const PostListprovider = ({ children }) => {
         userPosts,
         handleEditUserData,
         getUserData,
+        checkUserName,
+        isUserNameAvailable,
+        allUsersData,
+        getAllUsers,
       }}
     >
       {children}

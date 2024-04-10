@@ -45,8 +45,6 @@ const Feeds = ({ data }) => {
     post.time = formatTime(post.createdAt);
   });
 
-  console.log(sortedData);
-
   return (
     <Container className="mt-5">
       <Row className="d-flex flex-column align-content-center">
@@ -80,7 +78,7 @@ const Feeds = ({ data }) => {
       </Row>
       <Row className="d-flex flex-column align-content-center">
         {sortedData.map((post) => (
-          <Col key={post.id} sm={6} md={4} className="mb-4">
+          <Col key={post._id} sm={6} md={4} className="mb-4">
             <Card>
               <Row className="p-2 align-items-center d-flex flex-row">
                 <Col xs={1} className="mx-1">

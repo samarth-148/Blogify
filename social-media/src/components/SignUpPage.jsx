@@ -1,17 +1,30 @@
 /** @format */
 import { Form, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PostListContext } from "../store/post_list_store";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const { onUserSignUp } = useContext(PostListContext);
+  const { onUserSignUp, checkUserName } = useContext(PostListContext);
+  const [isUserNameAvailable, setIsUserNameAvailable] = useState(false);
 
-  function handleSignUp(event) {
+  async function handleSignUp(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const signUpData = Object.fromEntries(formData);
-    onUserSignUp(signUpData, navigate);
+    if (isUserNameAvailable) {
+      const formData = new FormData(event.target);
+      const signUpData = Object.fromEntries(formData);
+      onUserSignUp(signUpData, navigate);
+    } else {
+      alert("Username not available");
+    }
+  }
+
+  async function checkIsUserNameAvailable(event) {
+    const userName = event.target.value;
+
+    let response = await checkUserName(userName);
+    // console.log(response.available);
+    setIsUserNameAvailable(response.available);
   }
 
   return (
@@ -34,6 +47,28 @@ const SignUpPage = () => {
           placeholder="Enter your Last Name"
           required
         />
+        <label htmlFor="userName">User Name</label>
+        <div style={{ display: "flex", alignContent: "center" }}>
+          <input
+            style={{ width: "100%" }}
+            type="text"
+            id="userName"
+            name="userName"
+            placeholder="Enter User Name"
+            onChange={checkIsUserNameAvailable}
+            required
+          />
+          {isUserNameAvailable ? (
+            <span
+              className="mt-2 mb-2 p-2"
+              style={{ color: "green", marginLeft: "5px" }}
+            >
+              ✓
+            </span>
+          ) : (
+            <span style={{ color: "red", marginLeft: "5px" }}>✕</span>
+          )}
+        </div>
 
         <label htmlFor="email">Email</label>
         <input
@@ -52,8 +87,19 @@ const SignUpPage = () => {
           placeholder="Enter your password"
           required
         />
+        <label htmlFor="about">Bio</label>
+        <input
+          type="text"
+          id="about"
+          name="about"
+          placeholder="Enter your Bio..."
+        />
 
-        <button className="submit-btn-login" type="submit">
+        <button
+          className="submit-btn-login"
+          type="submit"
+          disabled={!isUserNameAvailable}
+        >
           Sign Up
         </button>
         <div className="signup-link">
