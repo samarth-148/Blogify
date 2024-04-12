@@ -253,6 +253,7 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
+      document.cookie = "uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       alert("Logged out successfully");
       setLoggedIn(false);
       setdataLoadedOrNot();
