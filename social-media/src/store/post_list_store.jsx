@@ -249,6 +249,7 @@ const PostListprovider = ({ children }) => {
       let url = backend_url + "/api/user/logout";
       await axios.get(url, {
         headers: {
+          "Access-Control-Allow-Origin": "https://blogifybysam.netlify.app",
           "Content-Type": "application/json",
         },
         withCredentials: true,
