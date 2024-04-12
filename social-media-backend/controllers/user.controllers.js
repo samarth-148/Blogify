@@ -76,7 +76,7 @@ async function handleSignup(req, res) {
 }
 
 async function handleLogOut(req, res) {
-  res.clearCookie("uid");
+  res.clearCookie("uid", { path: "/" }); // Assuming your cookie is named 'uid'
   return res.status(200).json({ Login: false });
 }
 async function handleEditUserData(req, res) {
