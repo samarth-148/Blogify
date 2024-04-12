@@ -42,8 +42,8 @@ const PostListprovider = ({ children }) => {
   const [dataToEdit, setDataToEdit] = useState({});
   const [isUserNameAvailable, setIsUserNameAvailable] = useState(false);
   const [allUsersData, setAllUsersData] = useState([]);
-  // const backend_url = "https://blogify-vp1v.onrender.com";
-  const backend_url = "http://localhost:4400";
+  const backend_url = "https://blogify-vp1v.onrender.com";
+  // const backend_url = "http://localhost:4400";
 
   function setPostsData(fetcheData) {
     setData(fetcheData);
@@ -55,6 +55,7 @@ const PostListprovider = ({ children }) => {
     setUserPosts(data);
   }
   function handleDataObjToEdit(editObjData) {
+    console.log(editObjData);
     setDataToEdit(editObjData);
   }
 
@@ -296,16 +297,12 @@ const PostListprovider = ({ children }) => {
         },
       });
 
-      // Check if the response is successful
       if (response.status === 200) {
-        // Handle the response according to your requirements
         return response.data;
       } else {
-        // Handle the error, if any
         console.error("Failed to fetch data:", response.statusText);
       }
     } catch (error) {
-      // Handle network errors
       console.error("Error:", error.message);
     }
   }
@@ -316,11 +313,9 @@ const PostListprovider = ({ children }) => {
       setAllUsersData(response.data);
     } catch (error) {
       console.error("Error fetching all users:", error);
-      throw error; // Re-throw the error to be handled by the caller
+      throw error;
     }
   }
-
-  // Example usage:
 
   return (
     <PostListContext.Provider

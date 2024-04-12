@@ -4,22 +4,12 @@ import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import DisplayPosts from "./DisplayPosts";
-import { useContext } from "react";
-import { PostListContext } from "../store/post_list_store";
 import { FaCamera } from "react-icons/fa";
 
-const Profile = () => {
-  const { userData, userPosts, isLoaded, getUserData } =
-    useContext(PostListContext);
-
-  useEffect(() => {
-    getUserData();
-  }, [isLoaded]);
-
+const Profile = ({ userData, userPosts }) => {
   return (
     <div
       className="mt-5 "
@@ -69,10 +59,10 @@ const Profile = () => {
           </Col>
         </Row>
       </Container>
-      <hr style={{ color: "gray", height: "2px", margin: "20px 0" }} />
-      <div className="mb-5 py-5">
+      <hr style={{ color: "gray", height: "2px" }} />
+      <div className="mb-5 ">
         {userPosts.length !== 0 ? (
-          <DisplayPosts data={userPosts} />
+          <DisplayPosts data={userPosts} isHome={false} />
         ) : (
           <div className="text-center">
             <div

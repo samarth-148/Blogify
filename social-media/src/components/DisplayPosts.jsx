@@ -12,7 +12,13 @@ const DisplayPosts = ({ isHome, data }) => {
   }, [isLoaded]);
 
   return (
-    <>{data && data.length > 0 ? <Feeds data={data} /> : <LoadingSpinner />}</>
+    <>
+      {data && data.length > 0 ? (
+        <Feeds data={data} isHome={isHome} />
+      ) : (
+        <LoadingSpinner />
+      )}
+    </>
   );
 };
 

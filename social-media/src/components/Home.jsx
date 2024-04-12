@@ -14,7 +14,7 @@ const Home = () => {
     handleGetData();
   }, [isLoaded]);
 
-  return <Feeds data={data} />;
+  return <Feeds data={data} isHome={true} />;
 };
 
 export default Home;

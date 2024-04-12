@@ -11,9 +11,9 @@ import LoginPage from "./components/LoginPage.jsx";
 import SignUpPage from "./components/SignUpPage.jsx";
 import DisplaySearchItems from "./components/DisplaySearchItems.jsx";
 import Home from "./components/Home.jsx";
-import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import Friends from "./components/Friends.jsx";
+import DisplayProfilePage from "./components/DisplayProfilePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
         element: <DisplaySearchItems />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "/DisplayProfile",
+        element: <DisplayProfilePage />,
       },
       {
         path: "/edit",

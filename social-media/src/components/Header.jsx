@@ -55,7 +55,7 @@ const Header = () => {
             <NavDropdown title="Profile" id="navbarScrollingDropdown">
               {isLoggedIn ? (
                 <>
-                  <Link to="/profile" className="dropdown-item">
+                  <Link to="/DisplayProfile" className="dropdown-item">
                     Visit Profile
                   </Link>
                   <NavDropdown.Divider />

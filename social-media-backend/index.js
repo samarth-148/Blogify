@@ -28,8 +28,8 @@ handleConnection(process.env.MONGO_URL)
 app.use(
   "/api/data",
   cors({
-    origin: "http://localhost:5173",
-    // origin: "https://blogifybysam.netlify.app",
+    // origin: "http://localhost:5173",
+    origin: "https://blogifybysam.netlify.app",
     credentials: true,
   }),
   dataRouter
@@ -38,8 +38,8 @@ app.use(
 app.use(
   "/api/user",
   cors({
-    origin: "http://localhost:5173",
-    // origin: "https://blogifybysam.netlify.app",
+    // origin: "http://localhost:5173",
+    origin: "https://blogifybysam.netlify.app",
     credentials: true,
   }),
   userRouter

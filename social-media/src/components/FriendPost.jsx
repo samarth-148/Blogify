@@ -2,31 +2,35 @@
 
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const FriendPost = ({ userData }) => {
-  console.log(userData.uName);
   return (
     <>
       <Container className="my-3">
         <Row className="">
           <Col xs={2}>
-            <img
-              className="mx-5"
-              src={userData.url}
-              alt="Profile"
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-              }}
-            />
+            <Link>
+              <img
+                className="mx-5"
+                src={userData.url}
+                alt="Profile"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                }}
+              />
+            </Link>
           </Col>
           <Col
             xs={6}
             className="d-flex flex-column justify-content-between mx-3"
           >
             <span>
-              <strong>{userData.uName}</strong>
+              <Link style={{ textDecoration: "none" }}>
+                <strong style={{ color: "black" }}>{userData.uName}</strong>
+              </Link>
             </span>
             <span className="text-muted">
               {userData.fName + " " + userData.lName}

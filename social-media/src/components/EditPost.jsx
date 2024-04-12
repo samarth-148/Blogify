@@ -9,14 +9,12 @@ import "../posts.css";
 const EditPost = () => {
   const navigate = useNavigate();
   const { onEditPost, dataToEdit } = useContext(PostListContext);
-  let [author, setAuthor] = useState(dataToEdit.author);
   let [description, setDescription] = useState(dataToEdit.description);
   const [isPublic, setIsPublic] = useState(false);
 
   function handleEditPost() {
     let id = dataToEdit._id;
     let data = {
-      author: author,
       description: description,
       postType: isPublic ? "public" : "private",
     };
@@ -44,19 +42,6 @@ const EditPost = () => {
             />
             <div className="form-container">
               <Form>
-                <div className="mb-3">
-                  <label htmlFor="exampleInputPassword1" className="form-label">
-                    Author
-                  </label>
-                  <input
-                    name="author"
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => {
-                      setAuthor(e.target.value);
-                    }}
-                  />
-                </div>
                 <div className="mb-3">
                   <label htmlFor="exampleInputPassword1" className="form-label">
                     Description

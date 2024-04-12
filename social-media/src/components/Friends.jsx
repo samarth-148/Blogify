@@ -16,7 +16,6 @@ const Friends = () => {
       className="mt-5 p-5 "
       style={{
         width: "40%",
-        marginLeft: "25%",
         backgroundColor: "#e9f5f9",
         marginLeft: "30%",
       }}
