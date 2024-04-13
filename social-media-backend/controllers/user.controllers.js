@@ -190,10 +190,10 @@ async function getUsers(req, res) {
           url = await getSignedUrl(client, command, { expiresIn: 3600 });
         }
         return {
-          userId: user._id,
-          fName: user.firstName,
-          lName: user.lastName,
-          uName: user.userName,
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.userName,
           url: url,
           about: user.about,
         };

@@ -121,7 +121,6 @@ const Feeds = ({ data, isHome }) => {
                 </div>
                 {!isHome ? (
                   <>
-                    {" "}
                     <Col xs={1} className="mx-2 pt-1">
                       <PiDotsThreeVerticalBold
                         onClick={() => handleDropdownToggle(post._id)}

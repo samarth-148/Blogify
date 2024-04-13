@@ -28,8 +28,10 @@ export const PostListContext = createContext({
   getUserData: () => {},
   checkUserName: () => {},
   getAllUsers: () => {},
+  handleOpenedProfileData: () => {},
   isUserNameAvailable: false,
   allUsersData: [],
+  opendUserData: {},
 });
 
 const PostListprovider = ({ children }) => {
@@ -42,6 +44,7 @@ const PostListprovider = ({ children }) => {
   const [dataToEdit, setDataToEdit] = useState({});
   const [isUserNameAvailable, setIsUserNameAvailable] = useState(false);
   const [allUsersData, setAllUsersData] = useState([]);
+  const [opendUserData, setOpenedUserData] = useState({});
   const backend_url = "https://blogify-vp1v.onrender.com";
   // const backend_url = "http://localhost:4400";
 
@@ -55,8 +58,10 @@ const PostListprovider = ({ children }) => {
     setUserPosts(data);
   }
   function handleDataObjToEdit(editObjData) {
-    console.log(editObjData);
     setDataToEdit(editObjData);
+  }
+  function handleOpenedProfileData(data) {
+    setOpenedUserData(data);
   }
 
   async function handleGetData() {
@@ -253,7 +258,6 @@ const PostListprovider = ({ children }) => {
         },
         withCredentials: true,
       });
-      // document.cookie = "uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       alert("Logged out successfully");
       setLoggedIn(false);
       setdataLoadedOrNot();
@@ -346,6 +350,8 @@ const PostListprovider = ({ children }) => {
         isUserNameAvailable,
         allUsersData,
         getAllUsers,
+        opendUserData,
+        handleOpenedProfileData,
       }}
     >
       {children}

@@ -14,6 +14,7 @@ import Home from "./components/Home.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import Friends from "./components/Friends.jsx";
 import DisplayProfilePage from "./components/DisplayProfilePage.jsx";
+import OpenUserProfile from "./components/OpenUserProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/friends",
         element: <Friends />,
+      },
+      {
+        path: "/openUserProfile",
+        element: <OpenUserProfile />,
       },
     ],
   },

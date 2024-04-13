@@ -6,7 +6,6 @@ import { PostListContext } from "../store/post_list_store";
 
 const Friends = () => {
   const { getAllUsers, allUsersData, userData } = useContext(PostListContext);
-  // Dummy data
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -21,7 +20,8 @@ const Friends = () => {
       }}
     >
       {allUsersData.map((user) => {
-        if (user.userId != userData._id) return <FriendPost userData={user} />;
+        if (user._id != userData._id)
+          return <FriendPost userData={user} key={user._id} />;
       })}
     </div>
   );
