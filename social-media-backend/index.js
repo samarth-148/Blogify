@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path = require("path");
 require("dotenv").config();
 const { handleConnection } = require("./connection");
 const dataRouter = require("./routes/data.routes");
@@ -13,6 +14,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "client", "build")));
+app.get("/api", (req, res) => {
+  res.json({ message: "API endpoint" });
+});
 
 handleConnection(process.env.MONGO_URL)
   .then(() => {
@@ -44,3 +49,6 @@ app.use(
   }),
   userRouter
 );
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
